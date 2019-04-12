@@ -17,11 +17,13 @@ object Diamond {
     import thoughtworks.Analyzer._
 
     val totalNumRows = diamondDF.countRows(spark)
+    val averagePrice = diamondDF.averageOfAColumn(spark, "price")
 
     println("Initial Analysis of Diamonds Data shows: \n")
     println(s"The schema of the data is")
     diamondDF.printSchema()
     println(s"The total number of rows is $totalNumRows")
+    println(f"The average price of diamonds sold is $averagePrice%1.2f")
 
   }
 
