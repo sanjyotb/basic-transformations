@@ -1,22 +1,36 @@
 package thoughtworks
 
-import org.apache.spark.sql.{Dataset, Row, SparkSession}
+import org.apache.spark.sql.{ Dataset, Row, SparkSession}
+import thoughtworks.AnalyzerUtils._
 
 object Analyzer {
-  implicit class DiamondsDataframe(val dataframe: Dataset[Row]) {
 
-    def countRows(spark: SparkSession): Long = {
-      dataframe.count()
+  implicit class DiamondsDataframe(val diamondsDF: Dataset[Row]) {
+
+    def totalPremiumCutDiamonds(spark: SparkSession): Long = {
+      import spark.implicits._
+      import org.apache.spark.sql.functions._
+
+      val isPremiumCut = lower($"cut") === lit("premium")
+      diamondsDF
+        .filterAColumn(spark, isPremiumCut)
+        .countRows(spark)
     }
 
-    def averageOfAColumn(spark: SparkSession, columnName: String): Double = {
-      import spark.implicits._
-      import org.apache.spark.sql.functions.avg
+    def totalQuantity(spark: SparkSession): Long = {
+      diamondsDF.countRows(spark)
+    }
 
-      val dataset: Dataset[Double] = dataframe.select(avg(columnName)).as[Double]
+    def averagePrice(spark: SparkSession): Double = {
+      diamondsDF.averageOfAColumn(spark, "price")
+    }
 
-      dataset.collect()(0)
+    def minimumPrice(spark: SparkSession): Double = {
+      diamondsDF.minimumOfAColumn(spark, "price")
+    }
+
+    def maximumPrice(spark: SparkSession): Double = {
+      diamondsDF.maximumOfAColumn(spark, "price")
     }
   }
-
 }
