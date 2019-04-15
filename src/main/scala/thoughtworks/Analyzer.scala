@@ -8,60 +8,48 @@ object Analyzer {
 
   implicit class DiamondsDataframe(val diamondsDF: Dataset[Row]) {
 
+    //Total records in diamonds
     def totalQuantity(spark: SparkSession): Long = {
       diamondsDF.countRows(spark)
     }
 
+    //Average price of all diamonds
     def averagePrice(spark: SparkSession): Double = {
-      diamondsDF.averageOfAColumn(spark, "price")
+      0.0
     }
 
+    //Minimum price of all diamonds
     def minimumPrice(spark: SparkSession): Double = {
-      diamondsDF.minimumOfAColumn(spark, "price")
+      0.0
     }
 
+    //Maximum price of all diamonds
     def maximumPrice(spark: SparkSession): Double = {
-      diamondsDF.maximumOfAColumn(spark, "price")
+      0.0
     }
 
+    //Filter premium cut diamonds and fetch record count
     def totalPremiumCutDiamonds(spark: SparkSession): Long = {
-      import spark.implicits._
-
-      val isPremiumCut = lower($"cut") === lit("premium")
-      diamondsDF
-        .filterAColumn(spark, isPremiumCut)
-        .countRows(spark)
+      0
     }
 
+    //Evaluate average price of diamonds by clarity using groupby and avg functions
     def averagePriceByClarity(spark: SparkSession): Dataset[Row] = {
-      import org.apache.spark.sql.functions._
-
-      diamondsDF
-        .groupBy("clarity")
-        .agg(
-          round(avg("price"), 2).alias("averagePrice")
-        )
+      spark.emptyDataFrame
     }
 
     def dropColorColumn(spark: SparkSession): Dataset[Row] = {
-      diamondsDF.dropAColumn(spark, "color")
+      spark.emptyDataFrame
     }
 
+    //Drop id column and then check for duplicates
     def removeDuplicateRecords(spark: SparkSession): Dataset[Row] = {
-      diamondsDF
-        .dropAColumn(spark, "id")
-        .dropDuplicateRecords(spark)
+      spark.emptyDataFrame
     }
 
+    //Populate column grade based on cut and clarity using when - otherwise conditionals
     def computeGrade(spark: SparkSession): Dataset[Row] = {
-      import org.apache.spark.sql.functions._
-
-      val columnValue = when(isGradeA(spark), "A")
-        .otherwise(
-          when(isGradeB(spark), "B")
-            .otherwise("C")
-        )
-      diamondsDF.addAColumn(spark, "grade", columnValue)
+      spark.emptyDataFrame
     }
 
     def isGradeA(spark: SparkSession):Column = {
