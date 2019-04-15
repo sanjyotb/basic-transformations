@@ -1,6 +1,6 @@
 package thoughtworks
 
-import org.apache.spark.sql.{Column, Dataset, Row, SparkSession}
+import org.apache.spark.sql._
 
 object AnalyzerUtils {
   implicit class Dataframe(val dataframe: Dataset[Row]) {
@@ -38,6 +38,18 @@ object AnalyzerUtils {
 
     def filterAColumn(spark: SparkSession, filterCondition: Column): Dataset[Row] = {
       dataframe.filter(filterCondition)
+    }
+
+    def addAColumn(spark: SparkSession, columnName: String, columnValue: Column): Dataset[Row] = {
+      dataframe.withColumn(columnName, columnValue)
+    }
+
+    def dropDuplicateRecords(spark: SparkSession): Dataset[Row] = {
+      dataframe.dropDuplicates()
+    }
+
+    def dropAColumn(spark: SparkSession, columnName: String): Dataset[Row] = {
+      dataframe.drop(columnName)
     }
   }
 }

@@ -21,6 +21,10 @@ object Diamond {
     val minimumPrice = diamondDF.minimumPrice(spark)
     val maximumPrice = diamondDF.maximumPrice(spark)
     val totalNumPremium = diamondDF.totalPremiumCutDiamonds(spark)
+    val averagePriceByClarity = diamondDF.averagePriceByClarity(spark).take(20)
+    val diamondsWithGrade = diamondDF.computeGrade(spark).take(20)
+    val totalDiamondsWithoutDuplicates = diamondDF.removeDuplicateRecords(spark).totalQuantity(spark)
+    val diamondsWithoutColor = diamondDF.dropColorColumn(spark).take(20)
 
     println("Initial Analysis of Diamonds Data shows: \n")
     println(s"The schema of the data is")
@@ -29,8 +33,13 @@ object Diamond {
     println(f"The average price of diamonds sold is $averagePrice%1.2f")
     println(f"The minimum price of diamonds sold is $minimumPrice%1.2f")
     println(f"The maximum price of diamonds sold is $maximumPrice%1.2f")
-    println(f"The number of flawless diamonds is $totalNumPremium")
-
+    println(s"The number of flawless diamonds is $totalNumPremium")
+    println("The average price of diamonds by clarity:")
+    averagePriceByClarity.foreach(println)
+    println("The grade for diamonds based on cut and clarity:")
+    diamondsWithGrade.foreach(println)
+    println(s"The total number of diamonds after removing duplicates is $totalDiamondsWithoutDuplicates")
+    println("After removal of color column from diamonds:")
+    diamondsWithoutColor.foreach(println)
   }
-
 }

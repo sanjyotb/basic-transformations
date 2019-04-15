@@ -32,7 +32,6 @@ class AnalyzerUtilsTest extends FeatureSpecWithSpark with Matchers {
       val columnName = "aColumn"
       val testDF = Seq(1.0, 3.0).toDF(columnName)
 
-
       val average: Double = testDF.averageOfAColumn(spark, columnName)
 
       average should be(2.0)
@@ -73,6 +72,51 @@ class AnalyzerUtilsTest extends FeatureSpecWithSpark with Matchers {
       val actualDF: Dataset[Row] = testDF.filterAColumn(spark, testDF.col(columnName) > lit(5))
 
       val expectedDF = Range(6, 10).toDF(columnName)
+
+      actualDF.except(expectedDF).count() should be(0)
+      expectedDF.except(actualDF).count() should be(0)
+    }
+  }
+
+  feature("add a column in dataframe") {
+    scenario("adds a column in dataframe") {
+      import org.apache.spark.sql.functions.lit
+
+      val columnA = "aColumn"
+      val columnB = "bColumn"
+      val testDF = Seq(1.0, 3.0, 5.0).toDF(columnA)
+
+      val actualDF = testDF.addAColumn(spark, columnB, lit("B"))
+
+      val expectedDF = Seq((1.0,"B"), (3.0,"B"), (5.0,"B")).toDF(columnA, columnB)
+
+      actualDF.except(expectedDF).count() should be(0)
+      expectedDF.except(actualDF).count() should be(0)
+    }
+  }
+
+  feature("drop duplicate rows") {
+    scenario("drops duplicate records in a dataframe") {
+      val testDF = Seq("row1", "row2", "row1", "row3").toDF()
+
+      val actualDF = testDF.dropDuplicateRecords(spark)
+
+      val expectedDF = Seq("row1", "row2", "row3").toDF()
+
+      actualDF.except(expectedDF).count() should be(0)
+      expectedDF.except(actualDF).count() should be(0)
+    }
+  }
+
+  feature("drop a column in dataframe") {
+    scenario("drops a column in dataframe") {
+      val columnA = "aColumn"
+      val columnB = "bColumn"
+      val testDF = Seq((1.0,"a"), (3.0,"b"), (5.0,"c")).toDF(columnA, columnB)
+
+      val actualDF = testDF.dropAColumn(spark, columnB)
+
+      val expectedDF = Seq(1.0, 3.0, 5.0).toDF(columnA)
 
       actualDF.except(expectedDF).count() should be(0)
       expectedDF.except(actualDF).count() should be(0)
