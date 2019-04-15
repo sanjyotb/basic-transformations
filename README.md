@@ -2,6 +2,15 @@ Basic Transformations
 
 Work through the katas in this codebase to learn basic transformations, transformations on a single dataframe/dataset, with Spark + Scala.
 
+Analyze diamonds dataset and write code for below operations:
+- count number of records
+- remove duplicates
+- calculate average price
+- calculate min and max price
+- filter flawless diamonds
+- groupBy clarity and calculate average price
+- Add column "grade" with computation based on cut and clarity
+- drop a column
 
 Dataset: src/main/resources/diamonds.csv
 
