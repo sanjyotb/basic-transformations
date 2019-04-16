@@ -1,20 +1,14 @@
 package thoughtworks
 
-
+import thoughtworks.Analyzer._
 import org.apache.spark.sql.SparkSession
 
 object Diamond {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().appName("Analyze Diamond Data Spark App").getOrCreate()
 
-    val diamondDF = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv("./src/main/resources/diamonds.csv")
-      .toDF("id", "carat", "cut", "color", "clarity", "depth_percent", "table", "price", "length", "width", "depth")
-      .cache()
-
-    import thoughtworks.Analyzer._
+    //Create dataframe from src/main/resources/diamonds.csv
+    val diamondDF = spark.emptyDataFrame
 
     val totalNumRows = diamondDF.totalQuantity(spark)
     //Perform operations on diamonds Dataset

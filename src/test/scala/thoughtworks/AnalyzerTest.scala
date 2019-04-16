@@ -1,8 +1,9 @@
 package thoughtworks
 
-import org.scalatest.Matchers
+import org.scalatest.{Ignore, Matchers}
 import thoughtworks.Analyzer._
 
+@Ignore
 class AnalyzerTest extends FeatureSpecWithSpark with Matchers {
 
   import spark.implicits._
