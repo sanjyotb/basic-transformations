@@ -34,4 +34,4 @@ How to run spark program through Intellij?
 - Set main class as 
     org.apache.spark.deploy.SparkSubmit
 - Set program arguments as
-   --master local target/scala-2.12/basic-transformations_2.12-0.1.jar
+   --master local -- class <main_class> target/scala-2.12/<jar_name>
