@@ -1,10 +1,9 @@
 package thoughtworks
 
-import org.scalatest.{Ignore, Matchers}
-import AnalyzerUtils._
 import org.apache.spark.sql.{Dataset, Row}
+import org.scalatest.Matchers
+import thoughtworks.AnalyzerUtils._
 
-@Ignore
 class AnalyzerUtilsTest extends FeatureSpecWithSpark with Matchers {
 
   import spark.implicits._
