@@ -1,36 +1,47 @@
 package thoughtworks
 
-import org.apache.spark.sql.functions.{lit, lower}
+import org.apache.spark.sql.functions.{avg, lit, lower, min}
 import org.apache.spark.sql.{Column, Dataset, Row, SparkSession}
-import thoughtworks.AnalyzerUtils._
 
-object Analyzer {
+object DiamondAnalyzer {
 
   implicit class DiamondsDataframe(val diamondsDF: Dataset[Row]) {
 
     def totalQuantity(spark: SparkSession): Long = {
-      diamondsDF.countRows(spark)
+      diamondsDF.count()
     }
 
     def averagePrice(spark: SparkSession): Double = {
-      diamondsDF.averageOfAColumn(spark, "price")
+      import spark.implicits._
+
+      val dataset: Dataset[Double] = diamondsDF.select(avg("price")).as[Double]
+
+      dataset.collect()(0)
     }
 
     def minimumPrice(spark: SparkSession): Double = {
-      diamondsDF.minimumOfAColumn(spark, "price")
+      import spark.implicits._
+
+      val dataset: Dataset[Double] = diamondsDF.select(min("price")).as[Double]
+
+      dataset.collect()(0)
     }
 
     def maximumPrice(spark: SparkSession): Double = {
-      diamondsDF.maximumOfAColumn(spark, "price")
+      import spark.implicits._
+      import org.apache.spark.sql.functions.max
+
+      val dataset: Dataset[Double] = diamondsDF.select(max("price")).as[Double]
+
+      dataset.collect()(0)
     }
 
     def totalPremiumCutDiamonds(spark: SparkSession): Long = {
       import spark.implicits._
 
-      val isPremiumCut = lower($"cut") === lit("premium")
       diamondsDF
-        .filterAColumn(spark, isPremiumCut)
-        .countRows(spark)
+        .filter(lower($"cut") === lit("premium"))
+        .count()
     }
 
     def averagePriceByClarity(spark: SparkSession): Dataset[Row] = {
@@ -44,13 +55,13 @@ object Analyzer {
     }
 
     def dropColorColumn(spark: SparkSession): Dataset[Row] = {
-      diamondsDF.dropAColumn(spark, "color")
+      diamondsDF.drop("color")
     }
 
     def removeDuplicateRecords(spark: SparkSession): Dataset[Row] = {
       diamondsDF
-        .dropAColumn(spark, "id")
-        .dropDuplicateRecords(spark)
+        .drop("id")
+        .dropDuplicates()
     }
 
     def computeGrade(spark: SparkSession): Dataset[Row] = {
@@ -61,7 +72,8 @@ object Analyzer {
           when(isGradeB(spark), "B")
             .otherwise("C")
         )
-      diamondsDF.addAColumn(spark, "grade", columnValue)
+
+      diamondsDF.withColumn("grade", columnValue)
     }
 
     def isGradeA(spark: SparkSession):Column = {

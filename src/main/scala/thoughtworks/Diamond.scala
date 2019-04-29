@@ -14,7 +14,7 @@ object Diamond {
       .toDF("id", "carat", "cut", "color", "clarity", "depth_percent", "table", "price", "length", "width", "depth")
       .cache()
 
-    import thoughtworks.Analyzer._
+    import thoughtworks.DiamondAnalyzer._
 
     val totalNumRows = diamondDF.totalQuantity(spark)
     val averagePrice = diamondDF.averagePrice(spark)

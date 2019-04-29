@@ -1,9 +1,9 @@
 package thoughtworks
 
 import org.scalatest.Matchers
-import thoughtworks.Analyzer._
+import thoughtworks.DiamondAnalyzer._
 
-class AnalyzerTest extends FeatureSpecWithSpark with Matchers {
+class DiamondAnalyzerTest extends FeatureSpecWithSpark with Matchers {
 
   import spark.implicits._
 
