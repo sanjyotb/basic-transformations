@@ -1,6 +1,6 @@
 package thoughtworks
 
-import thoughtworks.Analyzer._
+import thoughtworks.DiamondAnalyzer._
 import org.apache.spark.sql.SparkSession
 
 object Diamond {

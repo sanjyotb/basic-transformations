@@ -3,7 +3,7 @@ package thoughtworks
 import org.apache.spark.sql.functions.{lit, lower}
 import org.apache.spark.sql.{Column, Dataset, Row, SparkSession}
 
-object Analyzer {
+object DiamondAnalyzer {
 
   implicit class DiamondsDataframe(val diamondsDF: Dataset[Row]) {
 
