@@ -1,8 +1,8 @@
-Basic Transformations
+### Basic Transformations
 
 Work through the katas in this codebase to learn basic transformations, transformations on a single dataframe/dataset, with Spark + Scala.
 
-Analyze diamonds dataset and write code for below operations:
+##### Analyze diamonds dataset and write code for below operations:
 - count number of records
 - remove duplicates
 - calculate average price
@@ -11,6 +11,8 @@ Analyze diamonds dataset and write code for below operations:
 - groupBy clarity and calculate average price
 - Add column "grade" with computation based on cut and clarity
 - drop a column
+
+##### Goal: Do code changes for above operations and make sure all the test cases pass.
 
 Dataset: src/main/resources/diamonds.csv
 
@@ -30,7 +32,7 @@ Metadata: (Ref: https://www.kaggle.com/shivam2503/diamonds)
 11. z:        depth mm
 
 
-How to run spark program through Intellij?
+##### How to run spark program through Intellij?
 - Set main class as 
     org.apache.spark.deploy.SparkSubmit
 - Set program arguments as

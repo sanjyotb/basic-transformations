@@ -2,7 +2,6 @@ package thoughtworks
 
 import org.apache.spark.sql.functions.{lit, lower}
 import org.apache.spark.sql.{Column, Dataset, Row, SparkSession}
-import thoughtworks.AnalyzerUtils._
 
 object Analyzer {
 
@@ -10,7 +9,7 @@ object Analyzer {
 
     //Total records in diamonds
     def totalQuantity(spark: SparkSession): Long = {
-      diamondsDF.countRows(spark)
+      diamondsDF.count()
     }
 
     //Average price of all diamonds
