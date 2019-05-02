@@ -36,4 +36,4 @@ Metadata: (Ref: https://www.kaggle.com/shivam2503/diamonds)
 - Set main class as 
     org.apache.spark.deploy.SparkSubmit
 - Set program arguments as
-   --master local -- class <main_class> target/scala-2.12/<jar_name>
+   --master local --class<main_class> target/scala-2.12/<jar_name>
