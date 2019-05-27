@@ -11,7 +11,6 @@ object AnalyzerUtils {
       dataframe.count()
     }
 
-    //TODO :: Read from seq to DataSet[Row] and then return
     def averageOfAColumn(spark: SparkSession, columnName: String): Double = {
       dataframe
         .select(avg(columnName))

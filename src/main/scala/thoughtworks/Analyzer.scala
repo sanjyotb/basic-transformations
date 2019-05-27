@@ -49,16 +49,21 @@ object Analyzer {
       diamondsDF.drop("_c0").dropDuplicates()
     }
 
-    private def checkColumnForValue(colName: String, regex: String): Column = col(colName) rlike regex
+    //private def checkColumnForValue(colName: String, regex: String): Column = col(colName) rlike regex
 
     //Populate column grade based on cut and clarity using when - otherwise conditionals
     def computeGrade(spark: SparkSession): Dataset[Row] = {
-      diamondsDF
+      /*diamondsDF
         .withColumn("grade",
           when(checkColumnForValue("cut", "((?i)(premium)|(ideal))")
             and checkColumnForValue("clarity", "((?i)(FL)|(IF)|(VVS1)|(VVS2))"), "A")
             .when(checkColumnForValue("cut", "((?i)(very good)|(good))")
               and checkColumnForValue("clarity", "((?i)(VS1)|(VS2)|(SI1)|(SI2))"), "B")
+            .otherwise("C"))*/
+      diamondsDF
+        .withColumn("grade",
+          when(isGradeA(spark), "A")
+            .when(isGradeB(spark), "B")
             .otherwise("C"))
     }
 
