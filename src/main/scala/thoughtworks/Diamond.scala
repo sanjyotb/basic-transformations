@@ -4,8 +4,6 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import thoughtworks.Analyzer._
 
-//TODO :: Refactor to extract common functionality in helper functions wherever required in entire codebase
-//TODO :: Add test cases for Diamond class
 object Diamond {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().master("local").appName("Analyze Diamond Data Spark App").getOrCreate()
