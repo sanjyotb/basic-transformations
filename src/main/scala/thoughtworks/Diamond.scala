@@ -5,7 +5,11 @@ import org.apache.spark.sql.SparkSession
 
 object Diamond {
   def main(args: Array[String]): Unit = {
-    val spark = SparkSession.builder().appName("Analyze Diamond Data Spark App").getOrCreate()
+    val spark = SparkSession
+      .builder()
+      .master("local")
+      .appName("Analyze Diamond Data Spark App")
+      .getOrCreate()
 
     val diamondDF = spark.read
       .option("header", true)
